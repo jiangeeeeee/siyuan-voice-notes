@@ -1,0 +1,54 @@
+{
+  "version": "0.8.2",
+  "revision": "eeed38d",
+  "reviewDate": "2026-11-13",
+  "currentMacUI": "blocked: native window changed and browser tab session lost",
+  "screenshots": "existing repository screenshots reviewed visually; not captured in this run",
+  "images": [
+    {
+      "file": "assets/activation.png",
+      "source": "docs/validation-0.7.2/activation-free.png",
+      "sha256": "ba71961c2e387e8799a67ccfe48001c4fb9157cb2a5a825ff738238f96b0ade0"
+    },
+    {
+      "file": "assets/activated.png",
+      "source": "docs/validation-0.7.2/activation-success.png",
+      "sha256": "0c2a9f71ac0cd650c71e955b56df0f032650d618c6997185efad1f808dc15323"
+    },
+    {
+      "file": "assets/vocabulary.png",
+      "source": "docs/validation-0.7.2/pro-vocabulary.png",
+      "sha256": "18eb7f5252b08a0f168baa9efa88e0eac1822972b37bf0328c8786b2192abb7e"
+    },
+    {
+      "file": "assets/sync-playing.png",
+      "source": "docs/user/assets/raw/body-sync-1.png",
+      "sha256": "cb5294a93e5a0e7a880aa2f23f16b5a169f70808d35481006be7569ddf06c4dd"
+    },
+    {
+      "file": "assets/sync-result.png",
+      "source": "docs/user/assets/raw/body-sync-2.png",
+      "sha256": "cda778daf356e54e70c06945699b2f44a6294bfd2114a6b6f6c0320f6ba601a8"
+    },
+    {
+      "file": "assets/sync-recording.png",
+      "source": "docs/user/assets/raw/body-sync-3.png",
+      "sha256": "3796386fe1f33863246b2719265a386a67cf348f326354d474c186d5a791c0e2"
+    },
+    {
+      "file": "assets/link-selection.png",
+      "source": "docs/user/assets/raw/manual-link-1.png",
+      "sha256": "e282822b88c31a5128c23394b5c05297996188f839f01819e4f5124699bd2fa1"
+    },
+    {
+      "file": "assets/link-result.png",
+      "source": "docs/user/assets/raw/manual-link-2.png",
+      "sha256": "8139b9830f6f0d8c5bc1eca9f44c2669f182df097401f312847ef7b83c10c8b2"
+    },
+    {
+      "file": "assets/link-copied.png",
+      "source": "docs/user/assets/raw/manual-link-3.png",
+      "sha256": "7ab48c0a5536d7ea5de483de79dcbc517da70b9e0ab7102fe685c456755f9630"
+    }
+  ]
+}

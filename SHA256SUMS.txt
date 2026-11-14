@@ -1,0 +1,5 @@
+c94138f4cc53e55b054b470314f8a2f112335aa97fe390d7146bdc6e2772aa96  package.zip
+6efebc2997c90fb7cc514de2a9cf879b0d2fec8eabbe21a27fbf954212e090a2  siyuan-voice-notes-0.8.2-full.zip
+0b5f06bbf11086d9ec73380b59cb2ee2e7f3151934a91633defb8d35429eb54f  siyuan-voice-notes-0.8.2-full.zip.001
+2e77aba4f9aed5806544d61b1e2f7e3a7fbea57f961acde26c58832d07ec7eb6  siyuan-voice-notes-0.8.2-full.zip.002
+2c8603a804ad2e09c3f4dc1443290a12a21ee9019eedfbd429384c5ac6667e66  INSTALL-FULL.txt

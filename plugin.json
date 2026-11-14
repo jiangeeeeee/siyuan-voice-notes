@@ -1,0 +1,38 @@
+{
+  "name": "siyuan-voice-notes",
+  "author": "jiangeeeeee",
+  "url": "https://github.com/jiangeeeeee/siyuan-voice-notes",
+  "version": "0.8.2",
+  "minAppVersion": "3.8.9",
+  "backends": [
+    "all"
+  ],
+  "frontends": [
+    "desktop",
+    "mobile",
+    "browser-desktop",
+    "browser-mobile",
+    "desktop-window"
+  ],
+  "displayName": {
+    "default": "SiYuan Voice Notes",
+    "zh-CN": "思源语音 Voice Notes"
+  },
+  "description": {
+    "default": "Audio, timed transcripts and linked annotations in native blocks.",
+    "zh-CN": "将录音、时间戳转写和双链批注保存在原生语音块中。"
+  },
+  "readme": {
+    "default": "README.md",
+    "zh-CN": "README_zh_CN.md"
+  },
+  "keywords": [
+    "audio",
+    "transcript",
+    "语音",
+    "字幕"
+  ],
+  "settingsWindow": true,
+  "disabledInPublish": true,
+  "preview": "preview.png"
+}
