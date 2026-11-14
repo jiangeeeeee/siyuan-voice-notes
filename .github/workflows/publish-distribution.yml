@@ -1,0 +1,74 @@
+{
+  "name": "Publish verified distribution",
+  "on": {
+    "workflow_dispatch": {
+      "inputs": {
+        "base_one": {
+          "description": "base_one",
+          "required": true,
+          "type": "string"
+        },
+        "base_two": {
+          "description": "base_two",
+          "required": true,
+          "type": "string"
+        },
+        "fix": {
+          "description": "fix",
+          "required": true,
+          "type": "string"
+        },
+        "base_one_sha": {
+          "description": "base_one_sha",
+          "required": true,
+          "type": "string"
+        },
+        "base_two_sha": {
+          "description": "base_two_sha",
+          "required": true,
+          "type": "string"
+        },
+        "fix_sha": {
+          "description": "fix_sha",
+          "required": true,
+          "type": "string"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "contents": "write"
+  },
+  "concurrency": {
+    "group": "voice-release-publish",
+    "cancel-in-progress": false
+  },
+  "jobs": {
+    "publish": {
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 45,
+      "steps": [
+        {
+          "uses": "actions/checkout@v4",
+          "with": {
+            "ref": "main"
+          }
+        },
+        {
+          "name": "Assemble, verify and publish installable packages",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "BASE_ONE": "${{ inputs.base_one }}",
+            "BASE_TWO": "${{ inputs.base_two }}",
+            "FIX": "${{ inputs.fix }}",
+            "BASE_ONE_SHA": "${{ inputs.base_one_sha }}",
+            "BASE_TWO_SHA": "${{ inputs.base_two_sha }}",
+            "FIX_SHA": "${{ inputs.fix_sha }}"
+          },
+          "shell": "python",
+          "run": "import os, json, hashlib, shutil, zipfile, subprocess, struct\nfrom pathlib import Path\nroot=Path.cwd(); out=root/'release-output'; out.mkdir(exist_ok=True)\ndef digest(p):\n    with p.open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()\ndef run(*args):subprocess.run(args,check=True)\n# Temporary URLs authorize only these three installable archives.\nfor key,name in [('BASE_ONE','base.001'),('BASE_TWO','base.002'),('FIX','fix.zip')]:\n    print('::add-mask::'+os.environ[key],flush=True)\n    run('curl','--fail','--silent','--show-error','--location','--retry','5','--retry-all-errors','--output',name,os.environ[key])\n    assert digest(root/name)==os.environ[key+'_SHA'],name\nfull=out/'siyuan-voice-notes-0.8.2-full.zip'\nwith full.open('wb') as target:\n    for name in ['base.001','base.002']:\n        with (root/name).open('rb') as source:shutil.copyfileobj(source,target)\n        (root/name).unlink()\nrun('gh','release','download','v0.8.2','--repo',os.environ['GITHUB_REPOSITORY'],'--pattern','package.zip','--dir',str(out))\nwith zipfile.ZipFile(full) as base: full_manifest=json.loads(base.read('MANIFEST.json'))\nwith zipfile.ZipFile(root/'fix.zip') as patch:\n    overlay={n:patch.read(n) for n in patch.namelist() if n!='MANIFEST.json'}\nwith zipfile.ZipFile(out/'package.zip') as lite:\n    lite_files={n:lite.read(n) for n in lite.namelist() if n!='MANIFEST.json'}\nfor n in ['README.md','README_zh_CN.md','INSTALL-FULL.txt','plugin.json']:\n    lite_files[n]=(root/n).read_bytes()\n# Preserve Full runtime entry points while refreshing public metadata and guides.\noverlay.update({n:b for n,b in lite_files.items() if n not in ['index.js','build.json']})\nassert json.loads(overlay['build.json'])['flavor']=='full'\nassert json.loads(lite_files['build.json'])['flavor']=='lite'\nfor n,b in overlay.items():full_manifest['files'][n]={'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest()}\noverlay['MANIFEST.json']=json.dumps(full_manifest,ensure_ascii=False,indent=2).encode()\nstage=root/'overlay';stage.mkdir()\nfor n,b in overlay.items():\n    path=stage/n\n    assert path.resolve().is_relative_to(stage.resolve())\n    path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(b)\nsubprocess.run(['zip','-q',str(full),*sorted(overlay)],cwd=stage,check=True)\n# Preserve UTF-8 names consistently across platform ZIP implementations.\nwith zipfile.ZipFile(full,metadata_encoding='utf-8') as archive:\n    entries=archive.infolist();central_offset=archive.start_dir\nwith full.open('r+b') as stream:\n    for entry in entries:\n        stream.seek(central_offset);header=stream.read(46);assert header[:4]==b'PK\\x01\\x02'\n        name_length,extra_length,comment_length=struct.unpack_from('<HHH',header,28)\n        if not entry.filename.isascii():\n            stream.seek(central_offset+8);stream.write(struct.pack('<H',entry.flag_bits|0x800))\n            stream.seek(entry.header_offset+6);flags=struct.unpack('<H',stream.read(2))[0]\n            stream.seek(entry.header_offset+6);stream.write(struct.pack('<H',flags|0x800))\n        central_offset+=46+name_length+extra_length+comment_length\nlite_manifest={'flavor':'lite','files':{n:{'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest()} for n,b in sorted(lite_files.items())}}\nwith zipfile.ZipFile(out/'package.zip','w',zipfile.ZIP_DEFLATED,compresslevel=6) as archive:\n    for n,b in sorted(lite_files.items()):archive.writestr(n,b)\n    archive.writestr('MANIFEST.json',json.dumps(lite_manifest,ensure_ascii=False,indent=2))\nfor archive_path in [out/'package.zip',full]:\n    with zipfile.ZipFile(archive_path) as archive:\n        names=archive.namelist();manifest=json.loads(archive.read('MANIFEST.json'))\n        assert len(names)==len(set(names))\n        assert set(names)==set(manifest['files'])|{'MANIFEST.json'}\n        assert not any(n.startswith(('src/','scripts/','tests/','.git/','data/')) for n in names)\n        for n,expected in manifest['files'].items():\n            data=archive.read(n)\n            assert len(data)==expected['bytes'] and hashlib.sha256(data).hexdigest()==expected['sha256'],n\n        print('Verified',archive_path.name,len(names),'files',flush=True)\nparts=[]\nwith full.open('rb') as stream:\n    for index in range(1,10):\n        data=stream.read(1500*1024*1024)\n        if not data:break\n        path=Path(str(full)+f'.{index:03d}');path.write_bytes(data);parts.append(path)\nassert len(parts)==2\nshutil.copy2(root/'INSTALL-FULL.txt',out/'INSTALL-FULL.txt')\nchecks={p.name:digest(p) for p in [out/'package.zip',full,*parts,out/'INSTALL-FULL.txt']}\n(root/'SHA256SUMS.txt').write_text(''.join(f'{value}  {name}\\n' for name,value in checks.items()))\nshutil.copy2(root/'SHA256SUMS.txt',out/'SHA256SUMS.txt')\n# Publish only installable distributions and their instructions.\nrepo=os.environ['GITHUB_REPOSITORY']\nrelease=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/releases/tags/v0.8.2']))\nexpected={'package.zip','INSTALL-FULL.txt','SHA256SUMS.txt',*[p.name for p in parts]}\nfor asset in release['assets']:\n    if asset['name'] not in expected:run('gh','release','delete-asset','v0.8.2',asset['name'],'--repo',repo,'--yes')\nfor name in sorted(expected):\n    run('gh','release','upload','v0.8.2',str(out/name),'--repo',repo,'--clobber')\nrelease=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/releases/tags/v0.8.2']))\nassert {a['name'] for a in release['assets']}==expected\nfor asset in release['assets']:\n    path=out/asset['name'];assert asset['size']==path.stat().st_size and asset['digest']=='sha256:'+digest(path)\nrun('git','config','user.name','github-actions[bot]')\nrun('git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com')\nrun('git','add','SHA256SUMS.txt')\nif subprocess.run(['git','diff','--cached','--quiet']).returncode:\n    run('git','commit','-m','Record verified public release checksums')\n    run('git','push','origin','HEAD:main')\nnotes=root/'public-release-notes.txt'\nnotes.write_text('思源语音 Voice Notes 0.8.2，包含 2026-11-13 发言人修订。\\n\\npackage.zip 是完整 Lite 安装包。Full 下载 .001、.002 两部分，按 INSTALL-FULL.txt 合并后解压。Full 已包含本次修订，无需另装补丁。SHA256SUMS.txt 提供完整 ZIP 与分卷校验值。\\n\\nFull 中第二模型的便携运行组件适用于 Windows x64，其他平台的完整 Full 套件尚未验收。首次推理速度未明显改善，识别结果仍需回听校对。基础功能免费，Pro 为 29.9 元永久授权，包含正文与音频同步、专业词库纠错和精确原音双链。\\n\\nREADME、使用手册、Pro 图文说明及验证记录见本仓库。GitHub 自动生成的 Source code 包包含公开仓库材料，安装请使用 package.zip 或 Full 分卷。\\n\\n公开发行：https://github.com/jiangeeeeee/siyuan-voice-notes\\n私有源码：https://github.com/jiangeeeeee/siyuan-voice-notes-source\\n')\nrun('gh','release','edit','v0.8.2','--repo',repo,'--notes-file',str(notes),'--draft=false','--latest')\nprint('PUBLIC_RELEASE_VERIFIED',json.dumps(checks),flush=True)\n"
+        }
+      ]
+    }
+  }
+}

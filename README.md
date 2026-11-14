@@ -7,7 +7,7 @@
 请从 [Releases](https://github.com/jiangeeeeee/siyuan-voice-notes/releases/latest) 下载安装包。
 
 - `package.zip` 是完整 Lite 安装包，支持录音、导入、播放、字幕和笔记整理。
-- Full 包包含本地转写及发言人模型，文件较大，以 多个编号分卷提供。下载全部分卷并按 [Full 安装说明](INSTALL-FULL.txt) 合并后再解压。第二模型的便携运行组件适用于 Windows x64。
+- Full 包包含本地转写及发言人模型，文件较大，以 `.001`、`.002` 两部分提供。下载两部分并按 [Full 安装说明](INSTALL-FULL.txt) 合并后再解压。第二模型的便携运行组件适用于 Windows x64。
 
 退出思源，将安装包内容解压至工作空间的 `data/plugins/siyuan-voice-notes`，让 `plugin.json` 直接位于此目录，再启动思源并启用插件。升级前备份工作空间，保留正文、`assets` 和插件存储中的录音及授权数据。Lite 与 Full 使用同一个插件目录。
 

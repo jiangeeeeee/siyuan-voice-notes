@@ -1,13 +1,12 @@
 思源语音 Voice Notes 0.8.2 Full 安装说明
 
-下载所有 siyuan-voice-notes-0.8.2-full.zip.数字 分卷，放在同一个文件夹。各分卷是按字节拆分的 ZIP，先按编号顺序合并，再解压。当前共 17 个分卷，从 .001 到 .017，请下载齐全。
+下载 siyuan-voice-notes-0.8.2-full.zip.001 和 siyuan-voice-notes-0.8.2-full.zip.002，放在同一个文件夹。两部分是按字节拆分的 ZIP，先合并，再解压。
 
-Windows PowerShell（在分卷所在文件夹运行）
-$voiceOutput = [System.IO.File]::Create((Join-Path (Get-Location) "siyuan-voice-notes-0.8.2-full.zip"))
-try { Get-ChildItem "siyuan-voice-notes-0.8.2-full.zip.???" | Sort-Object Name | ForEach-Object { $voiceInput = $_.OpenRead(); try { $voiceInput.CopyTo($voiceOutput) } finally { $voiceInput.Dispose() } } } finally { $voiceOutput.Dispose() }
+Windows 命令提示符（CMD）
+copy /b siyuan-voice-notes-0.8.2-full.zip.001+siyuan-voice-notes-0.8.2-full.zip.002 siyuan-voice-notes-0.8.2-full.zip
 
 macOS / Linux 终端
-cat siyuan-voice-notes-0.8.2-full.zip.[0-9][0-9][0-9] > siyuan-voice-notes-0.8.2-full.zip
+cat siyuan-voice-notes-0.8.2-full.zip.001 siyuan-voice-notes-0.8.2-full.zip.002 > siyuan-voice-notes-0.8.2-full.zip
 
 SHA256SUMS.txt 同时列出分卷和合并后 ZIP 的校验值。合并包已包含 11 月 13 日的发言人修订，无需再安装该修订补丁。
 
