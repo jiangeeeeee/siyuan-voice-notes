@@ -1,17 +1,17 @@
-思源语音 Voice Notes 0.8.2 Full 安装说明
+思源语音 Full 0.8.3
 
-下载 siyuan-voice-notes-0.8.2-full.zip.001 和 siyuan-voice-notes-0.8.2-full.zip.002，放在同一个文件夹。两部分是按字节拆分的 ZIP，先合并，再解压。
+从当前 Release 下载 package.zip，即可安装主转写与发言人模型。
+Windows x64 双模型完整套件另提供 full-windows.zip.001 和 full-windows.zip.002。
+将两个文件放在同一个目录，按顺序合并为 full-windows.zip 后解压。
 
-Windows 命令提示符（CMD）
-copy /b siyuan-voice-notes-0.8.2-full.zip.001+siyuan-voice-notes-0.8.2-full.zip.002 siyuan-voice-notes-0.8.2-full.zip
+Windows CMD：
+copy /b full-windows.zip.001+full-windows.zip.002 full-windows.zip
 
-macOS / Linux 终端
-cat siyuan-voice-notes-0.8.2-full.zip.001 siyuan-voice-notes-0.8.2-full.zip.002 > siyuan-voice-notes-0.8.2-full.zip
+macOS / Linux（仅用于合并，Windows 第二模型不能在这些系统运行）：
+cat full-windows.zip.001 full-windows.zip.002 > full-windows.zip
 
-SHA256SUMS.txt 同时列出分卷和合并后 ZIP 的校验值。合并包已包含 11 月 13 日的发言人修订，无需再安装该修订补丁。
-
-退出思源并备份工作空间。将 ZIP 解压至工作空间 data/plugins/siyuan-voice-notes，plugin.json 应直接位于此目录。保留正文、assets 及 data/storage/petal/siyuan-voice-notes 中的数据。升级时先将旧插件程序目录移到工作空间之外，再放入完整新包。
-
-Full 内第二模型 Qwen3-ASR 的便携运行组件适用于 Windows x64。macOS、Linux 和移动端的完整 Full 套件尚未验收。Windows 解压时若提示路径过长，请使用支持长路径的工具或较短的工作空间路径。
-
-package.zip 为 Lite 安装包，不含离线模型。源码查看或下载按钮提供的是公开仓库文档，安装请使用 Release 附件。
+校验值见本次 Release 的 SHA256SUMS.txt。
+结束录音、退出思源，将完整包解压至 data/plugins/siyuan-voice-notes。
+保留录音所在的 assets、正文和插件存储数据。
+重新启用 Full 后，先在“版本与模型”中检查模型同步排除，再开始云同步。
+更详细的安装和 Lite / Full 切换说明见 INSTALL.md。
