@@ -1,0 +1,32 @@
+{
+  "name": "Publish Lite / Full split release",
+  "on": {
+    "workflow_dispatch": {}
+  },
+  "permissions": {
+    "contents": "write"
+  },
+  "concurrency": {
+    "group": "voice-release-publish",
+    "cancel-in-progress": false
+  },
+  "jobs": {
+    "publish": {
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 45,
+      "steps": [
+        {
+          "uses": "actions/checkout@v4"
+        },
+        {
+          "name": "Assemble and verify Full packages from public resources",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "OVERLAY_SHA256": "02cdeaaa75af8f6bc293c73533e661cd9d2c2096c27c6034f6bd7d136c743d6d"
+          },
+          "run": "python3 .github/scripts/assemble-public-release.py"
+        }
+      ]
+    }
+  }
+}

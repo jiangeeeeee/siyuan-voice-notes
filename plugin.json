@@ -1,8 +1,8 @@
 {
   "name": "siyuan-voice-notes",
-  "author": "jiangeeeeee",
-  "url": "https://github.com/jiangeeeeee/siyuan-voice-notes",
-  "version": "0.8.2",
+  "author": "Voice Notes contributors",
+  "url": "",
+  "version": "0.8.3",
   "minAppVersion": "3.8.9",
   "backends": [
     "all"
@@ -15,12 +15,12 @@
     "desktop-window"
   ],
   "displayName": {
-    "default": "SiYuan Voice Notes",
-    "zh-CN": "思源语音 Voice Notes"
+    "default": "SiYuan Voice Notes Full",
+    "zh-CN": "思源语音 Full"
   },
   "description": {
-    "default": "Audio, timed transcripts and linked annotations in native blocks.",
-    "zh-CN": "将录音、时间戳转写和双链批注保存在原生语音块中。"
+    "default": "Record, annotate and replay audio in notes, with local transcription and speaker models.",
+    "zh-CN": "正文录音、时间标记、原音回听与逐字稿整理，附本地转写及发言人模型。"
   },
   "readme": {
     "default": "README.md",
