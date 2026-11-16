@@ -45,6 +45,7 @@ with ZipFile(out / 'release-overlay.zip') as patch:
     overlay = {n: patch.read(n) for n in patch.namelist() if n != 'EXPECTED-CORE-MANIFEST.json'}
 assert json.loads(overlay['build.json'])['flavor'] == 'full'
 assert json.loads(overlay['plugin.json'])['version'] == '0.8.3'
+assert json.loads(overlay['plugin.json'])['url'] == 'https://github.com/' + repo
 manifest = original_manifest
 for name, data in overlay.items():
     path = PurePosixPath(name)
@@ -80,6 +81,9 @@ with full.open('r+b') as stream:
 def verify(path, expected=None):
     with ZipFile(path) as archive:
         m = json.loads(archive.read('MANIFEST.json'))
+        metadata = json.loads(archive.read('plugin.json'))
+        assert metadata['url'] == 'https://github.com/' + repo
+        assert metadata['name'] == 'siyuan-voice-notes'
         if expected is not None:
             assert m == expected
         names = archive.namelist()
@@ -104,6 +108,11 @@ with ZipFile(full) as src, ZipFile(package, 'w', ZIP_DEFLATED, compresslevel=6) 
             shutil.copyfileobj(incoming, target, 4 * 1024 * 1024)
     dst.writestr('MANIFEST.json', json.dumps(expected_core, indent=2))
 verify(package, expected_core)
+# Gate publishing on the official marketplace's complete checks, not only hashes.
+check_root = out / 'bazaar-check-package'
+with ZipFile(package) as archive:
+    archive.extractall(check_root)
+run(os.environ['BAZAAR_CHECKER'], str(check_root), str(package), repo)
 assert package.stat().st_size < 2_000_000_000
 split_parts = []
 with full.open('rb') as incoming:
@@ -122,7 +131,7 @@ assets = [package, *split_parts, out / 'INSTALL.md']
 checks = {p.name: sha(p) for p in [full, *assets]}
 (out / 'SHA256SUMS.txt').write_text(''.join(f'{digest}  {name}\n' for name, digest in checks.items()))
 assets.append(out / 'SHA256SUMS.txt')
-# Upload all assets first. A failure keeps the release draft and the previous release current.
+# All local and official rules must pass before replacing any release attachment.
 for path in assets:
     run('gh', 'release', 'upload', tag, str(path), '--repo', repo, '--clobber')
 release = json.loads(subprocess.check_output(['gh', 'api', f'repos/{repo}/releases', '--jq', f'.[]|select(.tag_name=="{tag}")']))

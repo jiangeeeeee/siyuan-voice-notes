@@ -19,10 +19,31 @@
           "uses": "actions/checkout@v4"
         },
         {
+          "name": "Check out official marketplace rules",
+          "uses": "actions/checkout@v4",
+          "with": {
+            "repository": "siyuan-note/bazaar",
+            "ref": "808d7457691c1822f575d13ba644c4111d4b8bb4",
+            "path": "marketplace-rules"
+          }
+        },
+        {
+          "uses": "actions/setup-go@v5",
+          "with": {
+            "go-version-file": "marketplace-rules/go.mod",
+            "cache": false
+          }
+        },
+        {
+          "name": "Build official marketplace checker",
+          "run": "mkdir -p marketplace-rules/cmd/voice-release-check\ncp .github/scripts/check-bazaar-package.go marketplace-rules/cmd/voice-release-check/main.go\ncd marketplace-rules\ngo build -o \"$RUNNER_TEMP/check-bazaar-package\" ./cmd/voice-release-check\n"
+        },
+        {
           "name": "Assemble and verify Full packages from public resources",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "OVERLAY_SHA256": "02cdeaaa75af8f6bc293c73533e661cd9d2c2096c27c6034f6bd7d136c743d6d"
+            "OVERLAY_SHA256": "75cab2e11c421d6ed36131f8cc3d4dcbe191cf577b1fd3fd3aef6f0f88b9cfec",
+            "BAZAAR_CHECKER": "${{ runner.temp }}/check-bazaar-package"
           },
           "run": "python3 .github/scripts/assemble-public-release.py"
         }
