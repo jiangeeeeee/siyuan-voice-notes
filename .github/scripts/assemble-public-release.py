@@ -12,7 +12,7 @@ root = Path.cwd()
 out = root / 'release-output'
 out.mkdir(exist_ok=True)
 repo = os.environ['GITHUB_REPOSITORY']
-tag = 'v0.8.3'
+tag = 'v0.8.4'
 
 def run(*args, **kwargs):
     subprocess.run(args, check=True, **kwargs)
@@ -44,7 +44,7 @@ with ZipFile(out / 'release-overlay.zip') as patch:
     expected_core = json.loads(patch.read('EXPECTED-CORE-MANIFEST.json'))
     overlay = {n: patch.read(n) for n in patch.namelist() if n != 'EXPECTED-CORE-MANIFEST.json'}
 assert json.loads(overlay['build.json'])['flavor'] == 'full'
-assert json.loads(overlay['plugin.json'])['version'] == '0.8.3'
+assert json.loads(overlay['plugin.json'])['version'] == tag[1:]
 assert json.loads(overlay['plugin.json'])['url'] == 'https://github.com/' + repo
 manifest = original_manifest
 for name, data in overlay.items():
@@ -139,5 +139,5 @@ remote = {a['name']: a for a in release['assets']}
 for path in assets:
     assert remote[path.name]['size'] == path.stat().st_size
     assert remote[path.name]['digest'] == 'sha256:' + sha(path)
-run('gh', 'release', 'edit', tag, '--repo', repo, '--draft=false', '--latest', '--title', '思源语音 Full 0.8.3', '--notes-file', str(root / 'RELEASE-NOTES.md'))
+run('gh', 'release', 'edit', tag, '--repo', repo, '--draft=false', '--latest', '--title', f'思源语音 Full {tag[1:]}', '--notes-file', str(root / 'RELEASE-NOTES.md'))
 print('RELEASE_PUBLISHED_AND_VERIFIED', json.dumps(checks), flush=True)
