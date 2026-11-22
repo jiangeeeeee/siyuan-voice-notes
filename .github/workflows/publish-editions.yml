@@ -23,7 +23,7 @@
           "uses": "actions/checkout@v4",
           "with": {
             "repository": "siyuan-note/bazaar",
-            "ref": "808d7457691c1822f575d13ba644c4111d4b8bb4",
+            "ref": "2eb2c3d0bf7fc6b6c8d442c34748d5a880865be3",
             "path": "marketplace-rules"
           }
         },
@@ -42,7 +42,7 @@
           "name": "Assemble and verify Full packages from public resources",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "OVERLAY_SHA256": "133ab55d5b94f1ba90ed9f73a766ace8cae291ef80662cbc277adec23ad275e2",
+            "OVERLAY_SHA256": "efe8e9724cf0274d31f71ee4b107cb786fb1451160edcfe997dd4822eeacb598",
             "BAZAAR_CHECKER": "${{ runner.temp }}/check-bazaar-package"
           },
           "run": "python3 .github/scripts/assemble-public-release.py"

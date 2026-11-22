@@ -12,7 +12,7 @@ root = Path.cwd()
 out = root / 'release-output'
 out.mkdir(exist_ok=True)
 repo = os.environ['GITHUB_REPOSITORY']
-tag = 'v0.8.4'
+tag = 'v' + json.loads((root / 'plugin.json').read_text())['version']
 
 def run(*args, **kwargs):
     subprocess.run(args, check=True, **kwargs)
