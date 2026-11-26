@@ -2,7 +2,7 @@
   "name": "siyuan-voice-notes",
   "author": "Voice Notes contributors",
   "url": "https://github.com/jiangeeeeee/siyuan-voice-notes",
-  "version": "0.8.6",
+  "version": "0.9.0",
   "minAppVersion": "3.8.9",
   "backends": [
     "all"
@@ -19,8 +19,8 @@
     "zh-CN": "思源语音 Full"
   },
   "description": {
-    "default": "Record, annotate and replay audio in notes, with local transcription and speaker models.",
-    "zh-CN": "正文录音、时间标记、原音回听与逐字稿整理，附本地转写及发言人模型。"
+    "default": "Record microphone or meeting audio, transcribe locally, and link notes to the original recording.",
+    "zh-CN": "录下会议声音和麦克风，边听边转写，从正文回到原话。附本地转写及发言人模型。"
   },
   "readme": {
     "default": "README.md",

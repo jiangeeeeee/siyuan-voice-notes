@@ -15,7 +15,7 @@ func main() {
 	if err != nil { panic(err) }
 	result := rules.Check(rules.Input{
 		PackageRoot: os.Args[1], ZipData: data, OwnerRepo: os.Args[3],
-		Type: rules.TypePlugin, OldName: path.Base(os.Args[3]), OldVersion: "0.8.5",
+		Type: rules.TypePlugin, OldName: path.Base(os.Args[3]), OldVersion: "0.8.6",
 	})
 	json.NewEncoder(os.Stdout).Encode(map[string]any{"OK": result.OK, "Issues": result.Issues})
 	if !result.OK { os.Exit(1) }

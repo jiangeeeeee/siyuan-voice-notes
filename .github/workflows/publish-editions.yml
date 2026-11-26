@@ -42,7 +42,7 @@
           "name": "Assemble and verify Full packages from public resources",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "OVERLAY_SHA256": "2734b11ca5a7030e6b1d34ccc07dc06a8fa8afbc601ffa2aa89fb5b667d0305c",
+            "OVERLAY_SHA256": "e685603b9495713946b7890ed144394b36783fa347c028d8de0178d606014c43",
             "BAZAAR_CHECKER": "${{ runner.temp }}/check-bazaar-package"
           },
           "run": "python3 .github/scripts/assemble-public-release.py"
