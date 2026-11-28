@@ -1,24 +1,145 @@
-# 🎙️ 思源语音 · Voice Notes（Full 版）
+# <img src="https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/icon.png" width="36" height="36" alt=""> 思源语音 Full
 
-在思源里录下一场会议，结束后就能边看逐字稿边听原话。Full 自带本地识别模型。Silero VAD 先找出有人说话的时段，SenseVoiceSmall INT8 再把这些片段转成文字。识别在本机完成，音频和逐字稿无需上传云端。
+会上刚定下交付日期，你在笔记里写了个“周五”。想核对是谁说的、有没有附加条件，点那段原音就能再听一遍。Full 随包带本地转写和发言人识别模型。只想录音、做标记或导入现成字幕，可以选 [Lite](https://github.com/jiangeeeeee/siyuan-voice-notes-lite)。
 
-## 哪一句没听清，就重转那几秒
+**当前版本 0.9.0** · 思源 3.8.9 及以上 · 桌面端、浏览器及移动端（会议录音见下） · [下载 Full 安装包（package.zip）](https://github.com/jiangeeeeee/siyuan-voice-notes/releases/download/v0.9.0/package.zip)
 
-按住 Ctrl（Mac 用 Command）在波形上拖选一句话，点「转写所选片段」。回听这几秒，把新识别的文字和原句对照，确认后再写回。其余逐字稿可以接着用。
+## 删除选中语音与撤销
 
-![在波形上选中一句话，回听并核对局部转写结果](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@18cf96f9963a22b0d39b5d4dbb461f2218472301/docs/demos/select-transcription.gif)
+按住 Ctrl（Mac 用 ⌘）在波形上拖选，或在逐字稿中勾选带时间的语段，再点顶部的「删除选中语音」。播放器会拼接剩下的音频，移除选区内的整句、发言人标注和时间标签，并把后面的时间向前移动。选区只覆盖一句话的一部分时，保留这句文字并标为估算，可回听校对。
 
-- **区分发言人。** 识别后，不同颜色标出每个人开口的时段。把“发言人 A”改成同事的姓名，这条录音里归到同一人的发言都会显示新名字。
-- **用第二个模型复核。** 在 Windows x64 桌面端另装完整扩展包后，可以让 Qwen3-ASR-0.6B 再听同一段原音。一次可选最多五分钟，逐句对照两份候选，自己决定采用哪种写法。
-- **🔗 从笔记回到原话。** 录音或回听时可以加时间标签。用 Pro 把一段原音关联到会议纪要里的一句话，日后点正文就能从对应位置回听。
+在播放器中按 Ctrl+Z（Mac 用 ⌘Z）可恢复上一次删除的原始音频和全部标注。连续删除可以逐次撤销，也可从「更多操作」→「音频与文件」点「撤销删除语音」。撤销记录保存在当前插件会话中，重新加载插件或退出思源后会清空。
 
-## Full、Lite 与 Pro 怎么选
+## 🌟 本次更新 · 转写和回听
 
-需要离线转写、局部重转或按声音自动分人，选 Full。只想录音、导入字幕和回听，选不含识别模型的 [Lite 版](https://github.com/jiangeeeeee/siyuan-voice-notes-lite)。两版使用兼容的语音数据，同一设备上启用其中一版即可。
+| 想做什么 | 从哪里开始 |
+| --- | --- |
+| 🎙 把整场会议转成文字 | 在播放器顶部点「语音转文字」。已有逐字稿时会先问你是否重转，确认后可以从菜单撤销。 |
+| 👥 看看是谁在说话 | 在标题下点「识别发言人」，色带会标出发言区间。点姓名可改名，「声纹绑定」可把选定片段加入人物档案。录音时也可以直接勾选「结束后自动区分发言人」。 |
+| ✂️ 只转写没听清的那一句 | 按住 Ctrl（Mac 用 Command）点出起止两处，或按住同一个键拖出一段。点「转写所选片段」→「识别所选范围」，读过候选文字再确认。如果只截了原句的一部分，可以把这几秒的文字单独存下来。 |
+| 🌊 先看哪里有人说话 | 打开语音块，等整条波形画好，再决定从哪儿听。长录音也会读到末尾。平直的地方声音很轻，起伏明显的地方可以点过去听。 |
+| ▶️ 盯住正在听的那句话 | 点波形定位，按空格播放，再按一次暂停。把时间轴放大后，播放指针走出窗口，视图会跟过去；往回跳也一样。 |
+| 📝 展开逐字稿 | 点「显示转写」查看已有文字。「同步正文笔记与音频」和「显示转写」都可以点开关或旁边的文字。 |
 
-- **Free** 可录音、回听、离线转写、局部重转，自动区分发言人、改名、加时间标签和导出逐字稿。
-- **Pro** 可把正文和选定时间段建立双链，按专业词库预览并批量纠错，还能保留或删除多个音频片段，听过拼接处再确认裁剪。
+![按住 Command 在波形上拖选一句话，点击转写所选片段，核对识别出的原话](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@4d6c2ad7d9c156b324e990d0c7aa7b4c80b08d82/docs/demos/select-transcription.gif)
 
-**💡 第一次同步前**，先启用 Full，在「版本与模型」检查模型同步排除。排除规则为 `/plugins/siyuan-voice-notes/offline/**`。另一台设备需单独安装模型，录音、逐字稿和笔记仍可随思源同步。
+![整条会议波形在播放前已经可见，放大一段后，播放指针越过窗口右边，视图跟到下一句](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@4d6c2ad7d9c156b324e990d0c7aa7b4c80b08d82/docs/demos/zoom.gif)
 
-适用于思源 3.8.9 及以上。[下载 Full 安装包](https://github.com/jiangeeeeee/siyuan-voice-notes/releases/latest/download/package.zip) · [Windows 扩展安装与版本切换](https://github.com/jiangeeeeee/siyuan-voice-notes/blob/main/INSTALL.md)
+## ✍️ 已有功能
+
+### 录下线上会议
+
+| 想做什么 | 从哪里开始 |
+| --- | --- |
+| 录下会议里对方说的话 | 文档上方的声波图标 →「会议录音」→「只录系统声音」。戴着耳机也能录，麦克风可以关着。 |
+| 把自己的发言也录进去 | 在「会议录音」中选「系统声音和麦克风」。双方的声音会存进同一条语音块，用耳机可以减少对方声音被麦克风再收一次。 |
+| 边开会边看逐字稿 | 在录音控制里勾选「实时转写」。看到文字后继续记笔记，点「结束录音」，逐字稿会随录音一起保存。 |
+| 长会只想先留下原音 | 把录音控制点「收起」，波形会停画，声音继续按秒写入草稿。会议录音默认关闭自动区分发言人，需要时再点「发言人 → 自动区分发言人」。 |
+
+在 Windows 或支持系统音频采集的 macOS 桌面端，可录电脑正在播放的声音。Mac 首次使用时，请按系统提示允许思源录制屏幕与系统音频。也可以用本机 Chrome 或 Edge 打开思源，在共享窗口选择会议标签页，勾选「同时共享标签页音频」。Linux 请使用浏览器标签页录音。能选哪些声音取决于系统和浏览器，手机端仍可用麦克风录音。
+
+![从声波菜单选择会议录音和声音来源，结束后在正文里找到会议语音块](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.9.0/docs/demos/meeting-full.gif)
+
+### 在笔记里整理录音
+
+| 想做什么 | 从哪里开始 |
+| --- | --- |
+| 现场录音和导入 | 点声波图标 →「开始录音」录麦克风，也可以点「导入音频」，把录音和同名 SRT、VTT 字幕一起放进正文。中断的录音可从「恢复未保存录音」找回。 |
+| 找到要听的几秒 | 点波形跳到原话，拖「缩放」看清细节，拖「浏览」看前后文。点「＋ 标记」给这一刻起个名字，回听时从标记列表跳回来。 |
+| 只留有用的片段 | 「更多操作 → 音频与文件 → 裁剪录音」可保留或删除多个时间段。先试听接缝，再确认替换，指向保留内容的原音链接会跟着调整。 |
+| 从笔记回到会议现场 | 勾选「同步正文笔记与音频」，边听边写。也可以按住 Ctrl（Mac 可用 Command）在波形上点出起止位置，用「复制所选音频链接」引用整句话。 |
+| 整理逐字稿 | 在「显示转写」里点一句话的「批注与编辑」，改字、拆段、加标签，或把疑问写成批注。已有 TXT 文稿也能导入。 |
+| 分清谁说了什么 | 会前可填参会人名单，录音中点「变更发言人」。回听时右键点人物色带，可改名或清除这一段的人物标注。 |
+| 一次改好同一个错词 | 在「逐字稿与校对」里打开「本条录音附加词库」，填入原词和正确写法，逐段预览后确认替换。 |
+| 补转一句没听清的话 | 点「语音转文字」转整条，也可以在波形上选中几秒钟，再点「转写所选片段」。需要区分人物时可以填入实际人数，分析完再对照原音给人物命名。 |
+| 用第二个模型核对原话 | Windows x64 完整扩展包提供「双模型复核」。选定五分钟以内的片段，对照两份候选文字，再决定采用哪一句。 |
+| 导出和备份 | 「逐字稿与校对 → 导出逐字稿」可以附上时间戳和人物姓名。「信息 → 高级 / 导入与恢复 → 导出 VoiceKnowledge JSON」可带走标记、人物与批注，音频另存在思源工作空间的 assets 目录。 |
+
+### 录一条声音，再把它放进笔记
+
+开始录音，暂停后继续，结束录音后直接播放正文中生成的语音块。
+
+![开始录音，暂停后继续，结束录音后直接播放正文中生成的语音块](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/record.gif)
+
+打开声波图标导入录音和同名字幕，正文里出现可播放的语音块和对应文字。
+
+![打开声波图标导入录音和同名字幕，正文里出现可播放的语音块和对应文字](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/import.gif)
+
+展开更多操作的四个分类，进入逐字稿与校对，打开导出选项。
+
+![展开更多操作的四个分类，进入逐字稿与校对，打开导出选项](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/menu.gif)
+
+### 复听、标记与裁剪
+
+在播放位置写下开始计时和实验备注，保存后从时间轴和列表找到标记。
+
+![在播放位置写下开始计时和实验备注，保存后从时间轴和列表找到标记](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/mark.gif)
+
+填写两段保留时间，生成试听文件并确认替换，40 秒的录音变为 11 秒。
+
+![填写两段保留时间，生成试听文件并确认替换，40 秒的录音变为 11 秒](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/trim.gif)
+
+### 让笔记指向原话
+
+播放时写下两杯水要同时开始计时，再从这段正文旁的回听按钮打开原音。
+
+![播放时写下两杯水要同时开始计时，再从这段正文旁的回听按钮打开原音](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/sync.gif)
+
+在音轨上选定原话的起止位置，把原音链接附到实验结论上，再从正文打开播放器。
+
+![在音轨上选定原话的起止位置，把原音链接附到实验结论上，再从正文打开播放器](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/link.gif)
+
+### 整理文字和发言人
+
+在批注与编辑中修改一句转写并加上实验准备标签，用标签找回这句话。
+
+![在批注与编辑中修改一句转写并加上实验准备标签，用标签找回这句话](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/edit.gif)
+
+给实验准备这句话写一条提醒，保存后点开语段旁的计数重读批注。
+
+![给实验准备这句话写一条提醒，保存后点开语段旁的计数重读批注](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/annotate.gif)
+
+右键第二段发言区间，把同学改为助教，第一段仍显示林老师。
+
+![右键第二段发言区间，把同学改为助教，第一段仍显示林老师](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/speaker.gif)
+
+保存一条纠错规则，在逐段预览中确认替换，回到逐字稿查看修改后的句子。
+
+![保存一条纠错规则，在逐段预览中确认替换，回到逐字稿查看修改后的句子](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/vocab.gif)
+
+### 用本地模型核对
+
+识别最前面的八秒，核对候选文字并确认，后面的实验步骤仍留在原位。
+
+![识别最前面的八秒，核对候选文字并确认，后面的实验步骤仍留在原位](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/recognize.gif)
+
+输入示例录音的实际发言人数，运行分析，在时间轴查看识别出来的发言区间。
+
+![输入示例录音的实际发言人数，运行分析，在时间轴查看识别出来的发言区间](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/people.gif)
+
+选定同一段录音，对照两份模型候选，将核对过的文字写回逐字稿。
+
+![选定同一段录音，对照两份模型候选，将核对过的文字写回逐字稿](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/dual-review.gif)
+
+### 导出逐字稿与备份
+
+选择时间戳和发言人，下载并打开 TXT，看到每段原话、姓名和时间。
+
+![选择时间戳和发言人，下载并打开 TXT，看到每段原话、姓名和时间](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/export.gif)
+
+展开信息页的备份与恢复工具，导出并打开 JSON 查看录音路径、时长和人物数据。
+
+![展开信息页的备份与恢复工具，导出并打开 JSON 查看录音路径、时长和人物数据](https://gcore.jsdelivr.net/gh/jiangeeeeee/siyuan-voice-notes@v0.8.5/docs/demos/backup.gif)
+
+[安装与版本切换](INSTALL.md) · [使用手册](docs/user/使用手册.md) · [许可证](LICENSE) · [第三方声明](THIRD_PARTY_NOTICES.md)
+
+## 🕰 版本记录
+
+| 版本 | 主要更新 |
+| --- | --- |
+| [0.9.0](https://github.com/jiangeeeeee/siyuan-voice-notes/releases/tag/v0.9.0) | 新增会议录音，可单录系统声音，也可把麦克风一起录进去。录音时可以打开本地实时转写。 同版本修订：支持整轨波形预读、播放跟随和空格控制。整段转写和发言人识别移到播放器旁，选中一段即可转写。 |
+| [0.8.6](https://github.com/jiangeeeeee/siyuan-voice-notes/releases/tag/v0.8.6) | 修正 GitHub 和思源集市里的动图链接。 |
+| [0.8.5](https://github.com/jiangeeeeee/siyuan-voice-notes/releases/tag/v0.8.5) | 文档录音入口和语音块有了同一枚声波图标。「更多操作」按用途收成四组，点开一组就能找到相关按钮。 |
+| [0.8.4](https://github.com/jiangeeeeee/siyuan-voice-notes/releases/tag/v0.8.4) | 可以试听并保留或删除多个时间段，已有引用会跟随裁剪重新定位。时间轴改为围绕播放位置按比例缩放。 |
+| [0.8.3](https://github.com/jiangeeeeee/siyuan-voice-notes/releases/tag/v0.8.3) | Lite 和 Full 分开安装。Lite 保留录音、回听和手工整理，Full 的本地模型目录加入思源同步忽略列表。 |
+| [0.8.2](https://github.com/jiangeeeeee/siyuan-voice-notes/releases/tag/v0.8.2) | 可以指定实际发言人数，也可以在音轨上右键变更或清除单段人物标注。 |

@@ -1,0 +1,6 @@
+{
+  "flavor": "full",
+  "version": "0.9.0",
+  "platform": "host-supported",
+  "secondModelPlatform": "windows-x64-extension"
+}
