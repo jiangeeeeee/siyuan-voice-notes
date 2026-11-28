@@ -26,7 +26,7 @@
 
 集市 `package.zip` 自带 SenseVoice 主转写模型、Silero VAD 和发言人模型，可执行本地转写和自动区分发言人。首次启动会加载模型，请留出内存和时间。
 
-双模型复核还需要 Windows x64 完整包。下载本次 Release 中 `full-windows.zip.001` 和 `full-windows.zip.002`，用支持分卷合并的工具合并成 ZIP，或在命令行按顺序拼接。校验 Release 中的 SHA256SUMS 后，退出思源并解压到同一个 Full 插件目录。
+Windows x64 的双模型复核需要另装运行环境和 Qwen 模型。打开[历史发行页](https://github.com/jiangeeeeee/siyuan-voice-notes/releases)，找到同时提供 `full-windows.zip.001` 和 `full-windows.zip.002` 的正式版，下载两个分卷，用该版的 SHA256SUMS.txt 校验后按顺序合并。退出思源，先解压旧版完整包，再将 0.9.1 的 `package.zip` 覆盖解压到同一插件目录，以保留新版本的程序和发言人识别脚本。
 
 macOS / Linux 可使用主转写及发言人模型，但不能运行该 Windows 第二模型组件。移动端与浏览器的内存、Worker 能力及麦克风权限各异，优先使用 Lite 读取已有结果；不承诺完整套件在这些环境中可用。
 
@@ -40,4 +40,4 @@ macOS / Linux 可使用主转写及发言人模型，但不能运行该 Windows 
 
 该目录包含模型、运行组件和模型工作脚本，全部只在当前设备使用。录音位于 `assets`，逐字稿和批注位于文档，不在此排除范围内。另一设备需单独安装 Full 资源。旧云端快照不会立即清除；外部网盘同步不受思源这条规则控制。
 
-更新 Full 前建议保留一份旧插件目录。集市核心包不含 Windows 第二模型扩展；若更新器替换了整个目录，更新后需重新解压完整扩展包。
+更新 Full 前建议保留一份旧插件目录。集市核心包不含 Windows 第二模型扩展；若更新器替换了整个目录，请按上文顺序恢复扩展和当前版本的程序。

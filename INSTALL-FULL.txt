@@ -1,17 +1,3 @@
-思源语音 Full 0.8.3
+思源语音 Full 0.9.1
 
-从当前 Release 下载 package.zip，即可安装主转写与发言人模型。
-Windows x64 双模型完整套件另提供 full-windows.zip.001 和 full-windows.zip.002。
-将两个文件放在同一个目录，按顺序合并为 full-windows.zip 后解压。
-
-Windows CMD：
-copy /b full-windows.zip.001+full-windows.zip.002 full-windows.zip
-
-macOS / Linux（仅用于合并，Windows 第二模型不能在这些系统运行）：
-cat full-windows.zip.001 full-windows.zip.002 > full-windows.zip
-
-校验值见本次 Release 的 SHA256SUMS.txt。
-结束录音、退出思源，将完整包解压至 data/plugins/siyuan-voice-notes。
-保留录音所在的 assets、正文和插件存储数据。
-重新启用 Full 后，先在“版本与模型”中检查模型同步排除，再开始云同步。
-更详细的安装和 Lite / Full 切换说明见 INSTALL.md。
+本版的 package.zip 包含主转写和发言人模型，SHA256SUMS.txt 给出该附件的校验值。Windows x64 双模型扩展的分卷下载、校验和安装顺序见 INSTALL.md。
